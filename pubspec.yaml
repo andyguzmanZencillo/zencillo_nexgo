@@ -11,8 +11,6 @@ dependencies:
   flutter:
     sdk: flutter
   oxidized: ^6.2.0
-  failures:
-    path: ../failures
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:

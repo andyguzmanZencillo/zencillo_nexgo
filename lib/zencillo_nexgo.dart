@@ -1,10 +1,9 @@
-import 'package:failures/failures.dart';
 import 'package:oxidized/oxidized.dart';
 
 import 'zencillo_nexgo_platform_interface.dart';
 
 class ZencilloNexgo {
-  static Future<Result<Unit, Failure>> print({
+  static Future<Result<Unit, String>> print({
     required String text,
     String code = '',
     bool isQr = false,
@@ -16,11 +15,11 @@ class ZencilloNexgo {
     );
   }
 
-  static Future<Result<String, Failure>> scan() {
+  static Future<Result<String, String>> scan() {
     return ZencilloNexgoPlatform.instance.scan();
   }
 
-  static Future<Result<String, Failure>> nfc() {
+  static Future<Result<String, String>> nfc() {
     return ZencilloNexgoPlatform.instance.nfc();
   }
 }

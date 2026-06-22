@@ -1,4 +1,3 @@
-import 'package:failures/failures.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -18,7 +17,7 @@ abstract class ZencilloNexgoPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<Result<Unit, Failure>> print({
+  Future<Result<Unit, String>> print({
     required String text,
     String code = '',
     bool isQr = false,
@@ -26,11 +25,11 @@ abstract class ZencilloNexgoPlatform extends PlatformInterface {
     throw UnimplementedError('print() has not been implemented.');
   }
 
-  Future<Result<String, Failure>> scan() {
+  Future<Result<String, String>> scan() {
     throw UnimplementedError('scan() has not been implemented.');
   }
 
-  Future<Result<String, Failure>> nfc() {
+  Future<Result<String, String>> nfc() {
     throw UnimplementedError('nfc() has not been implemented.');
   }
 }

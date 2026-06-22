@@ -1,4 +1,5 @@
-import 'package:failures/failures.dart';
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:oxidized/oxidized.dart';
@@ -10,34 +11,52 @@ class MethodChannelZencilloNexgo extends ZencilloNexgoPlatform {
   final methodChannel = const MethodChannel('zencillo_nexgo');
 
   @override
-  Future<Result<Unit, Failure>> print({
+  Future<Result<Unit, String>> print({
     required String text,
     String code = '',
     bool isQr = false,
   }) async {
-    return handleExceptions(() async {
+    try {
       await methodChannel.invokeMethod<String>('print', {
         'text': text,
         'code': code,
         'isQr': isQr,
       });
-      return unit;
-    });
+      return const Result.ok(unit);
+    } on PlatformException catch (e) {
+      return Result.err(e.message!);
+    } catch (e, stacktrace) {
+      log('nexgo FAILED ===> $e');
+      log('nexgo FAILED ===> $stacktrace');
+      return const Result.err('Algo falló!');
+    }
   }
 
   @override
-  Future<Result<String, Failure>> scan() async {
-    return handleExceptions(() async {
+  Future<Result<String, String>> scan() async {
+    try {
       final response = await methodChannel.invokeMethod<String>('scan');
-      return response ?? '';
-    });
+      return Result.ok(response ?? '');
+    } on PlatformException catch (e) {
+      return Result.err(e.message!);
+    } catch (e, stacktrace) {
+      log('scan FAILED ===> $e');
+      log('scan FAILED ===> $stacktrace');
+      return const Result.err('Algo falló!');
+    }
   }
 
   @override
-  Future<Result<String, Failure>> nfc() async {
-    return handleExceptions(() async {
+  Future<Result<String, String>> nfc() async {
+    try {
       final response = await methodChannel.invokeMethod<String>('nfc');
-      return response ?? '';
-    });
+      return Result.ok(response ?? '');
+    } on PlatformException catch (e) {
+      return Result.err(e.message!);
+    } catch (e, stacktrace) {
+      log('nfc FAILED ===> $e');
+      log('nfc FAILED ===> $stacktrace');
+      return const Result.err('Algo falló!');
+    }
   }
 }
