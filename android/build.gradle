@@ -7,7 +7,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
     }
 
     dependencies {
@@ -16,17 +15,19 @@ buildscript {
     }
 }
 
-allprojects {
+rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
+
+        flatDir {
+            dirs project(":zencillo_nexgo").file("libs")
+        }
     }
 }
 
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
-apply plugin: "maven-publish"
 
 android {
     if (project.android.hasProperty("namespace")) {
@@ -71,30 +72,10 @@ android {
     }
 }
 
-publishing {
-    publications {
-        nexgoSdk(MavenPublication) {
-            groupId = "nexgo"
-            artifactId = "sdk"
-            version = "3.08.010_20250528"
-            artifact("libs/nexgo-smartpos-sdk-v3.08.010_20250528.aar")
-        }
-    }
-}
-
-afterEvaluate {
-    tasks.named("clean") {
-        dependsOn("publishToMavenLocal")
-    }
-
-    tasks.named("preBuild") {
-        dependsOn("publishToMavenLocal")
-    }
-}
-
 dependencies {
     implementation "androidx.appcompat:appcompat:1.3.0"
-    implementation "nexgo:sdk:3.08.010_20250528"
+
+    implementation(name: "nexgo-smartpos-sdk-v3.08.010_20250528", ext: "aar")
 
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "org.mockito:mockito-core:5.0.0"
